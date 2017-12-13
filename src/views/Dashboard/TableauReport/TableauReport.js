@@ -46,27 +46,26 @@ class TableauReport extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.initTableau()
-    // const isReportChanged = nextProps.url !== this.state.currentUrl;
-    // const isFiltersChanged = !shallowequal(this.props.filters, nextProps.filters);
-    // const isParametersChanged = !shallowequal(this.props.parameters, nextProps.parameters);
-    // const isLoading = this.state.loading;
-    //
-    // if (isReportChanged) {
-    //   this.setState({
-    //     currentUrl: nextProps.url
-    //   });
-    //   this.forceUpdate();
-    //   this.initTableau();
-    // }
-    //
-    // if (!isReportChanged && isFiltersChanged && !isLoading) {
-    //   this.applyFilters(nextProps.filters);
-    // }
-    //
-    // if (!isReportChanged && isParametersChanged && !isLoading) {
-    //   this.applyParameters(nextProps.parameters);
-    // }
+    const isReportChanged = nextProps.url !== this.state.currentUrl;
+    const isFiltersChanged = !shallowequal(this.props.filters, nextProps.filters);
+    const isParametersChanged = !shallowequal(this.props.parameters, nextProps.parameters);
+    const isLoading = this.state.loading;
+
+    if (isReportChanged) {
+      this.setState({
+        currentUrl: nextProps.url
+      });
+      this.forceUpdate();
+      this.initTableau();
+    }
+
+    if (!isReportChanged && isFiltersChanged && !isLoading) {
+      this.applyFilters(nextProps.filters);
+    }
+
+    if (!isReportChanged && isParametersChanged && !isLoading) {
+      this.applyParameters(nextProps.parameters);
+    }
   }
 
 
@@ -155,8 +154,6 @@ class TableauReport extends Component {
         this.workbook = this.viz.getWorkbook();
         this.sheets = this.workbook.getActiveSheet().getWorksheets();
         this.sheet = this.sheets[0];
-        console.log(this.sheets)
-        console.log(this.workbook.getActiveSheet())
       }
     };
 
@@ -173,7 +170,5 @@ class TableauReport extends Component {
   }
 }
 
-// TableauReport.propTypes = propTypes;
-// TableauReport.defaultProps = defaultProps;
 
 export default TableauReport;
