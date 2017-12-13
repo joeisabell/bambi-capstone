@@ -6,14 +6,23 @@
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
+    "es6-promise": "^4.1.1",
     "express": "^4.16.2",
+    "formik": "^0.10.5",
+    "git": "^0.1.5",
     "react": "^16.2.0",
+    "react-autosuggest": "^9.3.2",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-svg": "^2.2.2",
-    "react-tableau-report": "^1.0.4",
-    "styled-components": "^2.2.4"
+    "sequelize": "^4.27.0",
+    "shallowequal": "^1.0.2",
+    "styled-components": "^2.2.4",
+    "tableau-react": "https://github.com/joeisabell/tableau-react.git",
+    "tedious": "^2.1.5",
+    "url": "^0.11.0",
+    "yup": "^0.23.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
@@ -25,5 +34,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001/"
 }

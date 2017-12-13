@@ -3,11 +3,17 @@ const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const db = require('./db')
+
 const port = process.env.PORT || 3001;
 const app = express();
 
 // MIDDLEWARE
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  req.db = db
+  next()
+})
 
 // ENPOINTS
 app.use('/api', require('./routes'))

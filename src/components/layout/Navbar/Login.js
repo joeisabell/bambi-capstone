@@ -46,7 +46,7 @@ const MenuLink = styled(NavLink).attrs({
   cursor: pointer;
 
   &.navLinkActive {
-    color: ${props => props.theme.secondary};
+    ${'' /* color: ${props => props.theme.secondary}; */}
   }
 
   &:hover {
