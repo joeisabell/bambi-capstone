@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TableauReport from 'react-tableau-report'
+import TableauReport from './TableauReport/TableauReport.js'
 
 import styled from 'styled-components'
 
@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
 
   render() {
     const { filters } = this.state
-    console.log(filters)
+
     return (
       <div>
         <Filter
@@ -29,7 +29,7 @@ export default class Dashboard extends Component {
         <TableauReport
           url={process.env.REACT_APP_TABLEAU_URL}
           options={{
-            hideTabs: true,
+            // hideTabs: true,
             width: "100%",
             height: 600
           }}
