@@ -21,7 +21,7 @@ export default class AzureML extends Component  {
   }
 
   render() {
-    const { items, isFetchingItems } = this.state
+    const { items } = this.state
     return (
       <AzureContainer>
         <Form setItems={this.setItems} />
