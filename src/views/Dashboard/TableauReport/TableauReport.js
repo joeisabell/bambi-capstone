@@ -4,6 +4,7 @@ import url from 'url';
 import { shallowequal } from './utils';
 import Tableau from './tableau-api';
 
+
 /**
  * React Component to render reports created in Tableau.
  *
@@ -30,7 +31,8 @@ class TableauReport extends Component {
   state = {
     filters: {},
     parameters: {},
-    currentUrl: ''
+    currentUrl: '',
+    sheets: {}
   }
 
   componentDidMount() {
@@ -43,6 +45,13 @@ class TableauReport extends Component {
     })
 
     this.initTableau();
+  }
+
+  compenentWillUnmount() {
+    if (this.viz) {
+      this.viz.dispose();
+      this.viz = null;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,7 +69,7 @@ class TableauReport extends Component {
     }
 
     if (!isReportChanged && isFiltersChanged && !isLoading) {
-      this.applyFilters(nextProps.filters);
+      this.applyFilters(this.chooseFilters(this.props.filters, nextProps.filters));
     }
 
     if (!isReportChanged && isParametersChanged && !isLoading) {
@@ -68,6 +77,21 @@ class TableauReport extends Component {
     }
   }
 
+  /**
+   * Make sure only the filters that have changed get applied.
+   *
+   * @returns {Object} Filters that should be applied.
+   * @memberOf TableauReport
+   */
+  chooseFilters(currFilters, nextFilters) {
+    const applyFilters = {}
+    for (let key in nextFilters) {
+      if(nextFilters[key] !== currFilters[key]) {
+        applyFilters[key] = nextFilters[key]
+      }
+    }
+    return applyFilters
+  }
 
   /**
    * Gets the url for the tableau report.
@@ -94,49 +118,25 @@ class TableauReport extends Component {
    */
   applyFilters(filters) {
     const REPLACE = Tableau.FilterUpdateType.REPLACE;
+    const { topItemByMonth, top10MostQty } = this.state.sheets
     const promises = [];
-    console.log(filters)
+
     this.setState({ loading: true });
 
     for (const key in filters) {
-      if (
-        !this.state.filters.hasOwnProperty(key) ||
-        !shallowequal(this.state.filters[key], filters[key])
-      ) {
-        console.log('pushing promises')
-        promises.push(
-          this.sheet.applyFilterAsync(key, filters[key], REPLACE)
-        );
+      if(filters[key] === "") {
+        promises.push( topItemByMonth.clearFilterAsync(key));
+        promises.push( top10MostQty.clearFilterAsync(key));
+      } else {
+        promises.push( topItemByMonth.applyFilterAsync(key, filters[key], REPLACE));
+        promises.push( top10MostQty.applyFilterAsync(key, filters[key], REPLACE));
       }
     }
-
-    console.log(promises)
-
-    Promise.all(promises).then(() => { this.setState({ loading: false, filters }) });
+    Promise.all(promises).then(() => {
+      this.setState({ loading: false, filters })
+    });
   }
 
-  /**
-   * Asynchronously applies parameters to the worksheet, excluding those that have
-   * already been applied, which is determined by checking against state.
-   * @param  {Object} parameters
-   * @return {void}
-   * @memberOf TableauReport
-   */
-  applyParameters(parameters) {
-    const promises = [];
-
-    for (const key in parameters) {
-      if (
-        !this.state.parameters.hasOwnProperty(key) ||
-        this.state.parameters[key] !== parameters[key]
-      ) {
-        const val = parameters[key];
-        promises.push(this.workbook.changeParameterValueAsync(key, val));
-      }
-    }
-
-    Promise.all(promises).then(() => this.setState({ loading: false, parameters }));
-  }
 
   /**
    * Initialize the viz via the Tableau JS API.
@@ -154,6 +154,13 @@ class TableauReport extends Component {
         this.workbook = this.viz.getWorkbook();
         this.sheets = this.workbook.getActiveSheet().getWorksheets();
         this.sheet = this.sheets[0];
+        this.setState({
+          sheets: {
+            topItemByMonth: this.sheets.get('Top Item by Month'),
+            topItemsAndStores: this.sheets.get('Top 10 for Top 10'),
+            top10MostQty: this.sheets.get('Top 10 Most QTY sold')
+          }
+        })
       }
     };
 

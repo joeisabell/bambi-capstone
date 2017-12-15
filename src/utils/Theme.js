@@ -4,7 +4,7 @@ export default {
   // colors
   primary: '#fff',
   secondary: '#0069ff',
-  shadow: '0 0 10px 6px rgba(0, 0, 0, 0.1)',
+  shadow: '0 0 20px 10px rgba(0, 0, 0, 0.1)',
   // fonts
   primaryFont: 'mr-eaves-xl-modern, sans-serif',
   secondaryFont: 'league-gothic, sans-serif',
@@ -157,7 +157,8 @@ export const inject = injectGlobal`
     color: inherit;
   }
 
-  input {
+  input,
+  select {
     outline: none;
   }
 

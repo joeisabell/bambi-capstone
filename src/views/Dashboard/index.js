@@ -1,46 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+
+import ErrorBoundary from 'components/ErrorBoundary'
+import PageTitle from 'components/PageTitle'
+import Filters from './Filters'
 import TableauReport from './TableauReport/TableauReport.js'
 
-import styled from 'styled-components'
 
 export default class Dashboard extends Component {
 
   state = {
-    filters: {}
+    "Dept Category Description": "",
+    "Fineline Description": ""
   }
 
-  onClick = e => {
-    console.log('setting filters')
-    this.setState({
-      filters: {
-        "Fineline Description": "<= 6000 MAH"
-      }
-    })
-  }
+  setFilters = filters => this.setState(filters)
 
   render() {
-    const { filters } = this.state
-
+    const Bold = PageTitle.Bold
+    const Subtitle = PageTitle.Sub
     return (
-      <div>
-        <Filter
-          onClick={ this.onClick }
-        > Fineline Filter </Filter>
-        <TableauReport
-          url={process.env.REACT_APP_TABLEAU_URL}
-          options={{
-            // hideTabs: true,
-            width: "100%",
-            height: 600
-          }}
-          filters={filters}
+      <Fragment>
+        <PageTitle>
+          Tableau Embedded Dashboard
+        </PageTitle>
+        <Subtitle>
+          Analyze your business without a data science degree!
+          Filter the data based on <Bold>Dept Category Description</Bold> or
+          <Bold> Fineline Description</Bold>
+        </Subtitle>
+        <Filters
+          filterState={this.state}
+          onChange={this.setFilters}
         />
-      </div>
+        <ErrorBoundary>
+          <TableauReport
+            url={process.env.REACT_APP_TABLEAU_URL}
+            options={{
+              hideTabs: true,
+              width: "100%",
+              height: 600
+            }}
+            filters={this.state}
+          />
+      </ErrorBoundary>
+      </Fragment>
     )
   }
 }
-
-
-const Filter = styled.button`
-  background: green;
-`

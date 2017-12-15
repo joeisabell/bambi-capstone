@@ -11,22 +11,29 @@ import data from './data'
 export default class MatchboxForm extends Component {
 
   submitForm = ( values, { setSubmitting, setErrors } ) => {
-    const { setItems } = this.props
+    const { onSubmit, onComplete } = this.props
 
     const itemObj = data.items.find(item => item.name === values.itemDesc)
-    const body = {
-      ...values,
-      itemNbr: itemObj["Item Nbr"]
-    }
+    const body = { ...values, itemNbr: itemObj["Item Nbr"]}
+
+    onSubmit({ loading: true })
+
     axios
       .post("/api/matchbox", body)
       .then(res => {
-        console.log(res)
         setSubmitting(false)
-        setItems(res.data.items)
+        onComplete({
+          result:res.data,
+          loading: false,
+          error: false
+        })
       })
       .catch(err => {
         console.log(err)
+        onComplete({
+          error: true,
+          loading: false
+        })
       })
   }
 
@@ -57,6 +64,7 @@ export default class MatchboxForm extends Component {
           setFieldValue
         }) => (
           <BoxForm>
+            <Header>Input</Header>
             { errors.storeName && touched.storeName &&
               <ErrorMessage>{errors.storeName}</ErrorMessage>}
             <StyledSuggest
@@ -105,15 +113,15 @@ export default class MatchboxForm extends Component {
 const BoxForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  width: 400px;
-  margin: 0 20px;
+  width: 300px;
+  margin: 0 20px 40px;
 `
 
 const Input = styled(Field)`
   border: solid thin;
   border-color: ${props => props.err ? 'red' : '#2e3234'};
   border-radius: 5px;
-  padding: 5px;
+  padding: 9px;
   margin: 5px 0;
   font-size: 14pt;
   width: 100%;
@@ -126,7 +134,16 @@ const Button = styled.button`
   padding: 5px;
   border-radius: 5px;
   cursor: pointer;
+  width: 200px;
+  margin: 5px auto;
 `
 const ErrorMessage = styled.div`
   color: red;
+`
+
+const Header = styled.h3`
+  font-family: ${props => props.theme.secondaryFont};
+  color: ${props => props.theme.secondary};
+  font-size: 26pt;
+  text-align: center;
 `

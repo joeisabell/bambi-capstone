@@ -25,7 +25,7 @@ router.post('/matchbox', async (req, res, next) => {
       const cleanResult = parseResult(result)
       const itemInfo = await getItemDetails(cleanResult.itemNbrs, req.db)
       res.status(200).json({
-        storeName: cleanResult.storeName,
+        store: cleanResult.storeName,
         items: itemInfo
       })
     })

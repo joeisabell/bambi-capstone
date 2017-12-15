@@ -4,6 +4,7 @@
 //! tableau-2.0.0.js
 //
 
+/* eslint-disable no-control-regex, no-new-func */
 var tableauSoftware = {};
 
 (function() {
@@ -63,7 +64,6 @@ var originalRegistrationFunctions = {
 };
 
 var tab = {};
-var tabBootstrap = {};
 
 
 Type.registerNamespace = function (name) {
@@ -177,7 +177,7 @@ ss.Delegate._contains = function Delegate$_contains(targets, object, method) {
 
 ss.Delegate._create = function Delegate$_create(targets) {
   var delegate = function() {
-    if (targets.length == 2) {
+    if (targets.length/1 === 2) {
       return targets[1].apply(targets[0], arguments);
     }
     else {
@@ -243,7 +243,7 @@ ss.Delegate.remove = function Delegate$remove(delegate1, delegate2) {
 
   for (var i = 0; i < targets.length; i += 2) {
     if ((targets[i] === object) && (targets[i + 1] === method)) {
-      if (targets.length == 2) {
+      if (targets.length/1 === 2) {
         return null;
       }
       targets.splice(i, 2);
@@ -319,7 +319,7 @@ ss.IDisposable.prototype = {
 
 ss.StringBuilder = function StringBuilder$(s) {
   this._parts = !ss.isNullOrUndefined(s) ? [s] : [];
-  this.isEmpty = this._parts.length == 0;
+  this.isEmpty = this._parts.length/1 === 0;
 }
 ss.StringBuilder.prototype = {
   append: function StringBuilder$append(s) {
@@ -374,7 +374,7 @@ ss.CancelEventArgs.registerClass('CancelEventArgs', ss.EventArgs);
 ss.Tuple = function (first, second, third) {
   this.first = first;
   this.second = second;
-  if (arguments.length == 3) {
+  if (arguments.length/1 === 3) {
     this.third = third;
   }
 }
@@ -3289,13 +3289,13 @@ tab.VizImpl.prototype = {
         else if (eventName === 'api.FilterChangedEvent') {
             if (this.__filterChange != null) {
                 if (this._workbookImpl.get_name() === notif.get_workbookName()) {
-                    var worksheetImpl = null;
-                    var activeSheetImpl = this._workbookImpl.get_activeSheetImpl();
+                    worksheetImpl = null;
+                    activeSheetImpl = this._workbookImpl.get_activeSheetImpl();
                     if (activeSheetImpl.get_name() === notif.get_worksheetName()) {
                         worksheetImpl = activeSheetImpl;
                     }
                     else if (activeSheetImpl.get_isDashboard()) {
-                        var db = activeSheetImpl;
+                        db = activeSheetImpl;
                         worksheetImpl = db.get_worksheets()._get(notif.get_worksheetName())._impl;
                     }
                     if (ss.isValue(worksheetImpl)) {
@@ -3341,7 +3341,7 @@ tab.VizImpl.prototype = {
             }
         }
         else if (eventName === 'api.CustomViewUpdatedEvent') {
-            var info = JSON.parse(notif.get_data());
+            info = JSON.parse(notif.get_data());
             if (ss.isNullOrUndefined(this._workbookImpl)) {
                 this._workbookImpl = new tab._WorkbookImpl(this, this._messagingOptions, ss.Delegate.create(this, function() {
                     this._onWorkbookInteractive();
@@ -3360,20 +3360,20 @@ tab.VizImpl.prototype = {
         else if (eventName === 'api.CustomViewRemovedEvent') {
             if (this.__customViewRemove != null) {
                 var removed = this._workbookImpl.get__removedCustomViews()._toApiCollection();
-                for (var i = 0, len = removed.length; i < len; i++) {
+                for (i = 0, len = removed.length; i < len; i++) {
                     this._raiseCustomViewRemove(removed[i]);
                 }
             }
         }
         else if (eventName === 'api.CustomViewSetDefaultEvent') {
-            var info = JSON.parse(notif.get_data());
+            var info1 = JSON.parse(notif.get_data());
             if (ss.isValue(this._workbookImpl)) {
-                tab._CustomViewImpl._processCustomViews(this._workbookImpl, this._messagingOptions, info);
+                tab._CustomViewImpl._processCustomViews(this._workbookImpl, this._messagingOptions, info1);
             }
             if (this.__customViewSetDefault != null) {
-                var updated = this._workbookImpl.get__updatedCustomViews()._toApiCollection();
-                for (var i = 0, len = updated.length; i < len; i++) {
-                    this._raiseCustomViewSetDefault(updated[i]);
+                var updated1 = this._workbookImpl.get__updatedCustomViews()._toApiCollection();
+                for (var i1 = 0, len1 = updated1.length; i1 < len1; i1++) {
+                    this._raiseCustomViewSetDefault(updated1[i1]);
                 }
             }
         }
@@ -4301,9 +4301,9 @@ tab._WorkbookImpl.prototype = {
                 dashboardImpl._addObjects(dashboardFrames, findSheetFunc);
             }
             else if (baseSheet.sheetType === 'story') {
-                var storyImpl = new tab._StoryImpl(newActiveSheetInfo._impl, this, this._messagingOptions, clientInfo.story, findSheetFunc);
-                this._activeSheetImpl = storyImpl;
-                storyImpl.add_activeStoryPointChange(ss.Delegate.create(this._vizImpl, this._vizImpl.raiseStoryPointSwitch));
+                var storyImpl1 = new tab._StoryImpl(newActiveSheetInfo._impl, this, this._messagingOptions, clientInfo.story, findSheetFunc);
+                this._activeSheetImpl = storyImpl1;
+                storyImpl1.add_activeStoryPointChange(ss.Delegate.create(this._vizImpl, this._vizImpl.raiseStoryPointSwitch));
             }
             else {
                 this._activeSheetImpl = new tab._WorksheetImpl(newActiveSheetInfo._impl, this, this._messagingOptions, null);
@@ -4601,6 +4601,8 @@ tab._WorksheetImpl._createSelectionCommandError$1 = function tab__WorksheetImpl$
             case 'invalidSelectionValue':
             case 'invalidSelectionDate':
                 return tab._TableauException.create(commandError.errorCode, additionalInfo);
+            default:
+                return null
         }
     }
     return null;
@@ -4851,9 +4853,9 @@ tab._WorksheetImpl.prototype = {
         }
         if (ss.isValue(filterOptions.max)) {
             if (tab._Utility.isDate(filterOptions.max)) {
-                var dt = filterOptions.max;
-                if (tab._Utility.isDateValid(dt)) {
-                    commandParameters['api.filterRangeMax'] = tab._Utility.serializeDateForServer(dt);
+                var dt2 = filterOptions.max;
+                if (tab._Utility.isDateValid(dt2)) {
+                    commandParameters['api.filterRangeMax'] = tab._Utility.serializeDateForServer(dt2);
                 }
                 else {
                     throw tab._TableauException.createInvalidDateParameter('filterOptions.max');
@@ -4927,7 +4929,7 @@ tab._WorksheetImpl.prototype = {
             levelValues = [];
             if (tab._jQueryShim.isArray(levelValue)) {
                 var levels = levelValue;
-                for (var i = 0; i < levels.length; i++) {
+                for (let i = 0; i < levels.length; i++) {
                     levelValues.push(levels[i].toString());
                 }
             }
@@ -5090,7 +5092,7 @@ tab._WorksheetImpl.prototype = {
             }
             if (ss.isValue(sourceOptions.max)) {
                 if (tab._Utility.isDate(sourceOptions.max)) {
-                    var dt = sourceOptions.max;
+                    let dt = sourceOptions.max;
                     if (tab._Utility.isDateValid(dt)) {
                         range.max = tab._Utility.serializeDateForServer(dt);
                     }
@@ -5151,18 +5153,18 @@ tab._WorksheetImpl.prototype = {
         }
         if (!tab._Utility.isNullOrEmpty(hierNameList) && !tab._Utility.isNullOrEmpty(hierValueList)) {
             commandParameters['api.hierarchicalFieldCaption'] = tab.JsonUtil.toJson(hierNameList, false, '');
-            var markValues = [];
-            for (var i = 0; i < hierValueList.length; i++) {
-                var values = tab.JsonUtil.toJson(hierValueList[i], false, '');
+            let markValues = [];
+            for (let i = 0; i < hierValueList.length; i++) {
+                let values = tab.JsonUtil.toJson(hierValueList[i], false, '');
                 markValues.push(values);
             }
             commandParameters['api.hierarchicalMarkValues'] = tab.JsonUtil.toJson(markValues, false, '');
         }
         if (!tab._Utility.isNullOrEmpty(rangeNameList) && !tab._Utility.isNullOrEmpty(rangeValueList)) {
             commandParameters['api.rangeFieldCaption'] = tab.JsonUtil.toJson(rangeNameList, false, '');
-            var markValues = [];
-            for (var i = 0; i < rangeValueList.length; i++) {
-                var values = tab.JsonUtil.toJson(rangeValueList[i], false, '');
+            let markValues = [];
+            for (let i = 0; i < rangeValueList.length; i++) {
+                let values = tab.JsonUtil.toJson(rangeValueList[i], false, '');
                 markValues.push(values);
             }
             commandParameters['api.rangeMarkValues'] = tab.JsonUtil.toJson(markValues, false, '');
@@ -5318,6 +5320,8 @@ tab.JsonUtil._serializeArray = function tab_JsonUtil$_serializeArray(it, pretty,
     stack.pop();
     return sb.toString();
 }
+
+
 tab.JsonUtil._escapeString = function tab_JsonUtil$_escapeString(str) {
     str = ('"' + str.replace(/(["\\])/g, '\\$1') + '"');
     str = str.replace(new RegExp('[\u000c]', 'g'), '\\f');
@@ -5655,8 +5659,9 @@ tableauSoftware.Filter._createFilter = function tableauSoftware_Filter$_createFi
             return new tableauSoftware.HierarchicalFilter(worksheetImpl, pm);
         case 'quantitative':
             return new tableauSoftware.QuantitativeFilter(worksheetImpl, pm);
+        default:
+            return null;
     }
-    return null;
 }
 tableauSoftware.Filter._processFiltersList = function tableauSoftware_Filter$_processFiltersList(worksheetImpl, filtersListDict) {
     var filters = new tab._Collection();
