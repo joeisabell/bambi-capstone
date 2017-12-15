@@ -5,20 +5,21 @@ import styled from 'styled-components'
 
 import SVG from 'components/SVG'
 
-import profile from 'assets/profile.svg'
+import book from 'assets/book.svg'
+import github from 'assets/github.svg'
+
+const docsLink = 'https://docs.google.com/document/d/145MMpIZFPykiwyYv-hJVwQb8UZKtPo9ketoEspEkcRc/edit?usp=sharing'
 
 const Login = ({ location }) =>
       <MenuList>
-        <MenuLink
-          to={{
-            pathname: '/',
-            state: { from: location }
-          }}
-        >
-          <ProfileIcon path={profile} />
-          Login
+        <MenuLink target="_blank" href={docsLink}>
+          Docs
+          <Icon path={book} />
         </MenuLink>
-        <MenuLink to="/">Sign Up</MenuLink>
+        <MenuLink target="_blank" href="https://github.com/joeisabell/machine-learning">
+          GitHub
+          <Icon path={github} />
+        </MenuLink>
       </MenuList>
 
 export default withRouter(Login)
@@ -29,7 +30,7 @@ const MenuList = styled.div`
   justify-content: space-between;
   height: 100%;
 `
-const MenuLink = styled(NavLink).attrs({
+const MenuLink = styled.a.attrs({
   activeClassName: 'navLinkActive'
 })`
   text-align: center;
@@ -55,19 +56,27 @@ const MenuLink = styled(NavLink).attrs({
   }
 `
 
-const ProfileIcon = styled(SVG)`
-  border: solid white thin;
-  border-radius: 30px;
+const Icon = styled(SVG)`
   margin: 5px;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   background: white;
+  cursor: pointer;
 
   & > path,
   circle {
     stroke: ${props => props.theme.secondary};
-    fill: ${props => props.theme.secondary};
   }
+
+  ${MenuLink}:hover & {
+    background: ${props => props.theme.secondary};
+
+    & > path,
+    circle {
+      stroke: white;
+    }
+  }
+
 `
