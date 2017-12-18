@@ -1,14 +1,13 @@
-
+<img src="https://s3-us-west-2.amazonaws.com/bambi-data/bambi.png" height="250" align="right">
 
 # BAMBI
 **B**entonville **M**erchants **B**usiness **I**ntelligence and **A**nalytics
 
 ### Team: 
-
-- Carsen Beyer
-- Kate Cousineau
-- Joe Isabell
-- John Lim
+- [Carsen Beyer](https://www.linkedin.com/in/carsenbeyer/)
+- [Kate Cousineau](https://www.linkedin.com/in/kate-cousineau-465268112/)
+- [Joe Isabell](https://www.linkedin.com/in/joeisabell/)
+- [John Lim](https://www.linkedin.com/in/johnhosacklim/)
 
 ## Table of Contents
 
@@ -67,7 +66,7 @@ Dashboard URL: https://public.tableau.com/views/IS415FinalProjectTableau/Dashboa
 
 A correlation matrix can be seen below. We have included the two numeric variables: Store Number and Item Number to predict the POS Qty (the dependent variable). Both the store number and item number have a significant p-value. While the R Square value is slightly lower than expected, it is within the bounds we had hoped for. The item number is the most correlated with the dependent variable; however, the store number is also very highly correlated. Skewness and kurtosis does not relate to our project. 
 
------- model testing results screenshot here -------
+![Correlation Matrix](https://raw.githubusercontent.com/joeisabell/machine-learning/master/src/assets/model-test-results.png)
 
 ## Model Testing
 
@@ -84,7 +83,8 @@ Both the store item sale quantities and the item description are used as inputs 
 An overview of the model is depicted below:
 
 ### Predictive Model
------- model diagram image here -------
+
+![Model Diagram](https://raw.githubusercontent.com/joeisabell/machine-learning/master/src/assets/model-diagram.png)
 
 
 ## Model Evaluation
