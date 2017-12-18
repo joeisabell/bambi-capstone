@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 
@@ -8,15 +7,13 @@ import SVG from 'components/SVG'
 import book from 'assets/book.svg'
 import github from 'assets/github.svg'
 
-const docsLink = 'https://docs.google.com/document/d/145MMpIZFPykiwyYv-hJVwQb8UZKtPo9ketoEspEkcRc/edit?usp=sharing'
-
 const Login = ({ location }) =>
       <MenuList>
-        <MenuLink target="_blank" href={docsLink}>
+        <MenuLink target="_blank" href="https://github.com/joeisabell/bambi-capstone/blob/master/README.md">
           Docs
           <Icon path={book} />
         </MenuLink>
-        <MenuLink target="_blank" href="https://github.com/joeisabell/machine-learning">
+        <MenuLink target="_blank" href="https://github.com/joeisabell/bambi-capstone">
           GitHub
           <Icon path={github} />
         </MenuLink>
