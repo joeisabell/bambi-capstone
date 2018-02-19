@@ -1,7 +1,6 @@
 <img src="https://s3-us-west-2.amazonaws.com/bambi-data/bambi.png" height="250" align="right">
 
 # BAMBI
-**B**entonville **M**erchants **B**usiness **I**ntelligence and **A**nalytics
 
 ### Team: 
 - [Carsen Beyer](https://www.linkedin.com/in/carsenbeyer/)
