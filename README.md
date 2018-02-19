@@ -98,7 +98,7 @@ The evaluate recommender did not produces an RMSE value for this model. Just to 
 Bambi is a full stack JavaScript app that uses React on the frontend and Node.js on the backend.
 It is single page application (SPA) that showcases the Tableau dashboard with filtering capabilities and the Azure ML web service. The web service is connected to a live Azure SQL Server database that holds updated records for the monthly sales of every store in the US. When new data is loaded into the database, a user can enter the experiment, run the model again, and redeploy the web service to retrain the model. The web app is fully mobile responsive to be used on the go.
 
-- Web App URL: https://bambi.merchantlabs.io/
+- Web App URL: *no longer hosted*
 - Azure Machine Learning Experiment URL: https://gallery.cortanaintelligence.com/Experiment/Bambi-ML-Final
 
 The tableau dashboard was published in a single workbook to tableau public. The URL can be found above along with more information about what the dashboard exhibits under the [Data Understanding](#data-understanding) section and Tableau. 
